@@ -1,9 +1,20 @@
 using GroceryStore.Api.Extensions;
 using System.Text.Json.Serialization;
 
+const string ALLOW_SPECIFIED_ORIGINS_POLICY = "AllowSpecifiedOrigins";
+const string CLIENT_URL_SECTION_NAME = "ClientUrl";
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+builder.Services.AddCors(options =>
+{
+    var clientUrl = builder.Configuration.GetSection(CLIENT_URL_SECTION_NAME).Value;
+    options.AddPolicy(name: ALLOW_SPECIFIED_ORIGINS_POLICY,
+        builder =>
+        {
+            builder.WithOrigins(clientUrl);
+        });
+});
 
 builder.Services
     .AddControllers()
@@ -29,6 +40,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseCors(ALLOW_SPECIFIED_ORIGINS_POLICY);
 
 app.UseAuthorization();
 
