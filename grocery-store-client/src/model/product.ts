@@ -1,4 +1,9 @@
 export interface Product {
-    name: string;
-    description: string
+    name: String;
+    description: String,
+    category: String,
+    height: Number,
+    width: Number,
+    price: Number,
+    rating: Number
 }
