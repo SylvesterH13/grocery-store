@@ -1,117 +1,87 @@
-<style>
-  :host {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-    font-size: 14px;
-    color: #333;
-    box-sizing: border-box;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-  }
-
-  p {
-    margin: 0;
-  }
-
-  .toolbar {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 60px;
-    display: flex;
-    align-items: center;
-    justify-content: center; 
-    background-color: #1976d2;
-    color: white;
-    font-weight: 600;
-  }
-
-  .toolbar span {
-    font-size: 1.25rem;
-  }
-
-  .content {
-    display: flex;
-    margin: 82px auto 32px;
-  }
-
-  .custom-card-body {
-    padding: 0.25rem 1rem !important;
-  }
-
-  footer {
-    margin-top: 8px;
-    display: flex;
-    align-items: center;
-    line-height: 20px;
-  }
-
-  footer a {
-    display: flex;
-    align-items: center;
-  }
-
-</style>
-
 <div class="toolbar header" role="banner">
   <span>Grocery Store</span>
 </div>
 
 <div class="content" role="main">
-
   <div class="container">
-  
     <div class="row">
-        <div class="col-md">
-          <div class="form-floating">
-            <input type="text" class="form-control" id="product-name" placeholder="Product name">
-            <label for="product-name">Name</label>
-          </div>
-        </div>      
-        <div class="col-md">
-          <div class="form-floating mb-3">
-            <input type="text" class="form-control" id="product-description" placeholder="Product description">
-            <label for="product-description">Description</label>
-          </div>
+      <div class="col-md">
+        <div class="form-floating">
+          <input type="text" class="form-control" id="product-name" [(ngModel)]="name" placeholder="Product name">
+          <label for="product-name">Name</label>
         </div>
-        <div class="col-md">
-          <div class="form-floating">
-            <select class="form-select" id="product-category" aria-label="Product category">
-              <option selected>Select a category</option>
-              <option value="Bakery">Bakery</option>
-              <option value="Dairy">Dairy</option>
-              <option value="Fruit">Fruit</option>
-              <option value="Meat">Meat</option>
-              <option value="Vegan">Vegan</option>
-              <option value="Vegetable">Vegetable</option>
-            </select>
-            <label for="product-category">Product category</label>
-          </div>
+      </div>      
+      <div class="col-md">
+        <div class="form-floating mb-3">
+          <input type="text" class="form-control" id="product-description" [(ngModel)]="description" placeholder="Product description">
+          <label for="product-description">Description</label>
         </div>
-        <div class="col-md">
-          <div class="form-floating">
-            <select class="form-select" id="product-category" aria-label="Product rating">
-              <option selected>Select a rating</option>
-              <option value="1">1</option>
-              <option value="2">2</option>
-              <option value="3">3</option>
-              <option value="4">4</option>
-              <option value="5">5</option>
-            </select>
-            <label for="product-rating">Product rating</label>
-          </div>
+      </div>
+      <div class="col-md">
+        <div class="form-floating">
+          <select class="form-select" id="product-category" [(ngModel)]="category" aria-label="Product category">
+            <option value="">Select a category</option>
+            <option value="Bakery">Bakery</option>
+            <option value="Dairy">Dairy</option>
+            <option value="Fruit">Fruit</option>
+            <option value="Meat">Meat</option>
+            <option value="Vegan">Vegan</option>
+            <option value="Vegetable">Vegetable</option>
+          </select>
+          <label for="product-category">Product category</label>
         </div>
-        <div class="col-md">
-          <div class="form-floating mb-3">
-            <input type="number" min="0.00" max="100.00" step="0.01" class="form-control" id="product-price" placeholder="Product price">
-            <label for="product-price">Price</label>
-          </div>
+      </div>
+      <div class="col-md">
+        <div class="form-floating">
+          <select class="form-select" id="product-rating" [(ngModel)]="rating" aria-label="Product rating">
+            <option value="undefined">Select a rating</option>
+            <option value="0">0</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+          </select>
+          <label for="product-rating">Product rating</label>
         </div>
-        <div class="row">
-          <div class="d-grid gap-2 col-2 mb-3">
-            <button type="button" class="btn-lg btn-primary" (click)="getProducts()">Search</button>
-          </div>
+      </div>
+      <div class="col-md">
+        <div class="form-floating mb-3">
+          <input type="number" min="0.00" max="100.00" step="0.01" class="form-control" id="product-price" [(ngModel)]="price" placeholder="Product price">
+          <label for="product-price">Price</label>
         </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="d-grid col-2 mb-3">
+        <button type="button" class="btn-lg btn-primary" (click)="getProducts()">Search</button>
+      </div>
+      <div class="d-grid col-2 mb-3">
+        <button type="button" class="btn-lg btn-success" (click)="clearFilter()">Clear</button>
+      </div>
+      <div class="d-grid offset-4 col-2 mb-3">
+        <div class="form-floating">
+          <select class="form-select" id="product-order" [(ngModel)]="orderType" aria-label="Product order">
+            <option value="">Select</option>
+            <option value="0">Asc</option>
+            <option value="1">Desc</option>
+          </select>
+          <label for="product-order">Order</label>
+        </div>
+      </div>
+      <div class="d-grid col-2 mb-3">
+        <div class="form-floating">
+          <select class="form-select" id="product-order-column" [(ngModel)]="orderProperty" aria-label="Product order column">
+            <option value="">Select</option>
+            <option value="Name">Name</option>
+            <option value="Category">Category</option>
+            <option value="Description">Description</option>
+            <option value="Price">Price</option>
+            <option value="Rating">Rating</option>
+          </select>
+          <label for="product-order-column">Order by</label>
+        </div>
+      </div>          
     </div>
 
     <div class="card">
@@ -143,14 +113,9 @@
             </tbody>
           </table>
         </div>
-
-
-
       </div>
     </div>
-
   </div>
-
 </div>
 
 <router-outlet></router-outlet>
